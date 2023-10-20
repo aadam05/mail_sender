@@ -1,5 +1,6 @@
 import smtplib
 import logging
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -10,6 +11,8 @@ from config import config
 from functools import lru_cache
 from typing_extensions import Annotated
 
+log_filename = "logger/sendMail.log"
+os.makedirs(os.path.dirname(log_filename), exist_ok=True)
 logging.basicConfig(filename='logger/sendMail.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 email_service = APIRouter()
