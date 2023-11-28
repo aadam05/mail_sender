@@ -1,9 +1,10 @@
 import logging
 from pydantic import BaseModel, EmailStr
+from typing import Union, List
 
 
 class EmailSchema(BaseModel):
-    to: EmailStr
+    to: Union[EmailStr, List[EmailStr]]
     subject: str
     message: str
 

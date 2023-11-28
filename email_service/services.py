@@ -33,7 +33,6 @@ def send_email(email_data: EmailSchema, settings: Annotated[config.Settings, Dep
 
     msg = MIMEMultipart()
     msg["From"] = sender_email
-    msg["To"] = email_data.to
     msg["Date"] = formatdate(localtime=True)
     msg["Subject"] = email_data.subject
     msg["Message"] = email_data.message
@@ -44,7 +43,7 @@ def send_email(email_data: EmailSchema, settings: Annotated[config.Settings, Dep
     try:
         with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
             server.login(sender_email, sender_password)
-            server.send_message(msg, from_addr=sender_email)
+            server.send_message(msg, from_addr=sender_email, to_addrs=email_data.to)
 
         logging.info(f"Email sent to {email_data.to} with subject '{email_data.subject}'")
         return JSONResponse(content={"message": "Email sent successfully"})
